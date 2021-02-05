@@ -21,36 +21,56 @@ const GithubState = (props) => {
 
 	// Search Users
 	const searchUsers = async (text) => {
-		console.log(process.env
-			.REACT_APP_UNSPLASH_CLIENT_ID);
+		console.log(process.env.REACT_APP_UNSPLASH_CLIENT_ID);
 		setLoading();
 
-		const res = await axios.get(
-			`https://api.github.com/search/users?q=${text}&client_id=${process.env
-				.REACT_APP_UNSPLASH_CLIENT_ID}&client_secret=${process.env.REACT_APP_UNSPLASH_CLIENT_SECRET}`
+		const newRes = await api.search.getPhotos({
+			query: 'island'
+		});
+		console.log("🚀 ~ file: githubState.js ~ line 40 ~ newRes ~ newRes", newRes);
+
+		if (newRes.errors) {
+			// handle error here
+			console.log('error occurred: ', newRes.errors[0]);
+		} else {
+			// extract total and results array from response
+			const { total, results } = newRes.response;
+
+			// handle success here
+			console.log(`received ${results.length} photos out of ${total}`);
+			console.log('first photo: ', results[0]);
+			// console.log('1st user name: ', results[0].user.name);
+			// console.log('1st where: ', results[0].alt_description);
+
+			// getPhotoLocation(results[0].id);
+
+			dispatch({
+				type: SEARCH_USERS,
+				payload: results
+			});
+		}
+
+
+	};
+
+	const getPhotoLocation = async (id) => {
+		const res = await api.photos.get(
+			{ photoId: 'I7oLRdM9YIw' }
 		);
 
-		api.users.getPhotos({ username: 'luismorerat' }).then(result => {
-			if (result.errors) {
-				// handle error here
-				console.log('error occurred: ', result.errors[0]);
-			} else {
-				const feed = result.response;
+		let payload = '';
+		if (res.response.location.name) {
+			payload = res.response.location.name;
+		} else {
+			console.log("No info about location.");
+		}
+		console.log("🚀line 74 ", payload)
 
-				// extract total and results array from response
-				const { total, results } = feed;
-
-				// handle success here
-				console.log(`received ${results.length} photos out of ${total}`);
-				console.log('first photo: ', results[0]);
-			}
-		});
-
-		dispatch({
-			type: SEARCH_USERS,
-			payload: res.data.items
-		});
-	};
+		// dispatch({
+		// 	type: GET_PHOTO_LOCATION,
+		// 	payload: res.response.location
+		// });
+	}
 
 	// Get User
 	const getUser = async (username) => {
