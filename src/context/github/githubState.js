@@ -3,6 +3,11 @@ import axios from 'axios';
 import GithubContext from './githubContext';
 import GithubReducer from './githubReducer';
 import { SEARCH_USERS, SET_LOADING, CLEAR_USERS, GET_USER, GET_REPOS } from '../types';
+import { createApi } from "unsplash-js";
+
+const api = createApi({
+	accessKey: process.env.REACT_APP_UNSPLASH_CLIENT_ID
+});
 
 const GithubState = (props) => {
 	const initialState = {
@@ -12,16 +17,34 @@ const GithubState = (props) => {
 		loading: false
 	};
 
-	const [ state, dispatch ] = useReducer(GithubReducer, initialState);
+	const [state, dispatch] = useReducer(GithubReducer, initialState);
 
 	// Search Users
 	const searchUsers = async (text) => {
+		console.log(process.env
+			.REACT_APP_UNSPLASH_CLIENT_ID);
 		setLoading();
 
 		const res = await axios.get(
 			`https://api.github.com/search/users?q=${text}&client_id=${process.env
-				.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+				.REACT_APP_UNSPLASH_CLIENT_ID}&client_secret=${process.env.REACT_APP_UNSPLASH_CLIENT_SECRET}`
 		);
+
+		api.users.getPhotos({ username: 'luismorerat' }).then(result => {
+			if (result.errors) {
+				// handle error here
+				console.log('error occurred: ', result.errors[0]);
+			} else {
+				const feed = result.response;
+
+				// extract total and results array from response
+				const { total, results } = feed;
+
+				// handle success here
+				console.log(`received ${results.length} photos out of ${total}`);
+				console.log('first photo: ', results[0]);
+			}
+		});
 
 		dispatch({
 			type: SEARCH_USERS,
@@ -35,7 +58,7 @@ const GithubState = (props) => {
 
 		const res = await axios.get(
 			`https://api.github.com/users/${username}?client_id=${process.env
-				.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+				.REACT_APP_UNSPLASH_CLIENT_ID}&client_secret=${process.env.REACT_APP_UNSPLASH_CLIENT_SECRET}`
 		);
 
 		dispatch({
