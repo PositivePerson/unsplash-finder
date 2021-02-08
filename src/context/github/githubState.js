@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import GithubContext from './githubContext';
 import GithubReducer from './githubReducer';
-import { SEARCH_USERS, SET_LOADING, CLEAR_USERS, GET_USER, GET_REPOS } from '../types';
+import { SEARCH_USERS, SET_LOADING, CLEAR_USERS, GET_USER, SEARCH_PHOTOS, GET_PHOTO } from '../types';
 import { createApi } from "unsplash-js";
 
 const api = createApi({
@@ -14,18 +14,30 @@ const GithubState = (props) => {
 		users: [],
 		user: {},
 		repos: [],
-		loading: false
+		loading: false,
+		photos: [],
+		photo: {}
 	};
 
 	const [state, dispatch] = useReducer(GithubReducer, initialState);
 
 	// Search Users
 	const searchUsers = async (text) => {
+
+		dispatch({
+			type: SEARCH_USERS,
+			payload: ''
+		});
+
+	};
+
+	// Search Photos
+	const searchPhotos = async (text) => {
 		console.log(process.env.REACT_APP_UNSPLASH_CLIENT_ID);
 		setLoading();
 
 		const newRes = await api.search.getPhotos({
-			query: 'island'
+			query: text
 		});
 		console.log("🚀 ~ file: githubState.js ~ line 40 ~ newRes ~ newRes", newRes);
 
@@ -45,17 +57,33 @@ const GithubState = (props) => {
 			// getPhotoLocation(results[0].id);
 
 			dispatch({
-				type: SEARCH_USERS,
+				type: SEARCH_PHOTOS,
 				payload: results
 			});
 		}
+	}
 
+	const getPhoto = async (id) => {
+		const res = await api.photos.get(
+			{ photoId: id }
+		);
 
-	};
+		// if (res.response.location.name) {
+		// 	payload = res.response.location.name;
+		// } else {
+		// 	console.log("No info about location.");
+		// }
+		// console.log("🚀line 74 ", payload)
+
+		dispatch({
+			type: GET_PHOTO,
+			payload: res.response
+		});
+	}
 
 	const getPhotoLocation = async (id) => {
 		const res = await api.photos.get(
-			{ photoId: 'I7oLRdM9YIw' }
+			{ photoId: id }
 		);
 
 		let payload = '';
@@ -99,12 +127,16 @@ const GithubState = (props) => {
 		<GithubContext.Provider
 			value={{
 				users: state.users,
+				photos: state.photos,
 				user: state.user,
 				repos: state.repos,
 				loading: state.loading,
 				searchUsers,
+				searchPhotos,
 				clearUsers,
-				getUser
+				getUser,
+				getPhoto,
+				getPhotoLocation
 			}}
 		>
 			{props.children}

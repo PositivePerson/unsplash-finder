@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const UserItem = ({ user: { login, avatar_url, html_url } }) => {
+const UserItem = ({ photo: { location, urls, id } }) => {
 	return (
 		<div className='card text-center'>
-			<img src={avatar_url} alt='' className='round-img' style={{ width: '60px' }} />
-			<h3>{login}</h3>
+			<img src={urls.small} alt='' className='' style={{ width: '60px' }} />
+			<h3>{location}</h3>
 
 			<div>
-				<Link to={`/user/${login}`} className='btn btn-dark btn-sm my-1'>
+				<Link to={`/user/${id}`} className='btn btn-dark btn-sm my-1'>
 					More
 				</Link>
 			</div>
@@ -18,7 +18,7 @@ const UserItem = ({ user: { login, avatar_url, html_url } }) => {
 };
 
 UserItem.propTypes = {
-	user: PropTypes.object.isRequired
+	photo: PropTypes.object.isRequired
 };
 
 export default UserItem;

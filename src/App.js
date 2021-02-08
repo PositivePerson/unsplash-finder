@@ -13,9 +13,9 @@ import GithubState from './context/github/githubState';
 import './App.css';
 
 const App = () => {
-	const [ repos, setRepos ] = useState([]);
-	const [ loading, setLoading ] = useState(false);
-	const [ alert, setAlert ] = useState(null);
+	const [repos, setRepos] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [alert, setAlert] = useState(null);
 
 	// async componentDidMount() {
 	// 	this.setState({ loading: true });
@@ -56,6 +56,13 @@ const App = () => {
 							<Route
 								exact
 								path='/'
+								render={(props) => (
+									<Search {...props} setAlert={showAlert} />
+								)}
+							/>
+							<Route
+								exact
+								path='/photos/:phrase'
 								render={(props) => (
 									<Fragment>
 										<Search setAlert={showAlert} />
