@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import GithubContext from './githubContext';
 import GithubReducer from './githubReducer';
-import { SEARCH_USERS, SET_LOADING, CLEAR_USERS, GET_USER, SEARCH_PHOTOS, GET_PHOTO } from '../types';
+import { SET_LOADING, GET_USER, SEARCH_PHOTOS, GET_PHOTO } from '../types';
 import { createApi } from "unsplash-js";
 
 const api = createApi({
@@ -11,25 +11,13 @@ const api = createApi({
 
 const GithubState = (props) => {
 	const initialState = {
-		users: [],
 		user: {},
-		repos: [],
 		loading: false,
 		photos: [],
 		photo: {}
 	};
 
 	const [state, dispatch] = useReducer(GithubReducer, initialState);
-
-	// Search Users
-	const searchUsers = async (text) => {
-
-		dispatch({
-			type: SEARCH_USERS,
-			payload: ''
-		});
-
-	};
 
 	// Search Photos
 	const searchPhotos = async (text) => {
@@ -100,6 +88,22 @@ const GithubState = (props) => {
 		// });
 	}
 
+	const getTopicsList = async (topic) => {
+		const res = await api.topics.list({
+			page: 1,
+			perPage: 10
+		});
+		console.log("🚀 ~ file: githubState.js ~ line 107 ~ getTopicsList ~ res", res)
+		// res.response.results.map(e => {
+		// 	console.log(e)
+		// })
+
+		// dispatch({
+		// 	type: GET_PHOTO_LOCATION,
+		// 	payload: res.response.location
+		// });
+	}
+
 	// Get User
 	const getUser = async (username) => {
 		setLoading();
@@ -115,28 +119,20 @@ const GithubState = (props) => {
 		});
 	};
 
-	// Get Repos
-
-	// Clear Users
-	const clearUsers = () => dispatch({ type: CLEAR_USERS });
-
 	// Set Loading
 	const setLoading = () => dispatch({ type: SET_LOADING });
 
 	return (
 		<GithubContext.Provider
 			value={{
-				users: state.users,
 				photos: state.photos,
 				user: state.user,
-				repos: state.repos,
 				loading: state.loading,
-				searchUsers,
 				searchPhotos,
-				clearUsers,
 				getUser,
 				getPhoto,
-				getPhotoLocation
+				getPhotoLocation,
+				getTopicsList
 			}}
 		>
 			{props.children}

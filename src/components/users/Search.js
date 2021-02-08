@@ -5,7 +5,10 @@ import Autosuggest from 'react-autosuggest';
 import GithubContext from '../../context/github/githubContext';
 
 const Search = ({ history, setAlert }) => {
+
 	const githubContext = useContext(GithubContext);
+
+	githubContext.getTopicsList('party');
 
 	const [text, setText] = useState('');
 
@@ -27,7 +30,8 @@ const Search = ({ history, setAlert }) => {
 		<div style={window.location.pathname === '/' ? firstPageStyle : {}}>
 			<form className='form' onSubmit={onSubmit}>
 				<input type='text' name='text' placeholder='Search Users...' value={text} onChange={onChange} />
-				<input type='submit' value='Search' className='btn btn-dark btn-block' />
+				{/* <input type='submit' value='Search' className='btn btn-dark btn-block' /> */}
+
 				{/* {text ?
 					(
 						<Link to={`/photos/${text}`}>
@@ -38,11 +42,6 @@ const Search = ({ history, setAlert }) => {
 					)
 				} */}
 			</form>
-			{githubContext.photos.length > 0 && (
-				<button className='btn btn-light btn-block' onClick={githubContext.clearUsers}>
-					Clear
-				</button>
-			)}
 		</div >
 	);
 };

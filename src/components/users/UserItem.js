@@ -4,15 +4,10 @@ import { Link } from 'react-router-dom';
 
 const UserItem = ({ photo: { location, urls, id } }) => {
 	return (
-		<div className='card text-center'>
-			<img src={urls.small} alt='' className='' style={{ width: '60px' }} />
-			<h3>{location}</h3>
-
-			<div>
-				<Link to={`/user/${id}`} className='btn btn-dark btn-sm my-1'>
-					More
-				</Link>
-			</div>
+		<div className='card text-center' style={{ padding: "unset" }}>
+			<Link to={`/user/${id}`}>
+				<img src={urls.small} alt='' className='' style={{ maxWidth: '30vw' }} />
+			</Link>
 		</div>
 	);
 };
