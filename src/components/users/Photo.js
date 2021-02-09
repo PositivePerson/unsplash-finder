@@ -8,7 +8,7 @@ import {
 	MDBModalBody
 } from "mdbreact";
 
-const User = ({ modal, setModal }) => {
+const Photo = ({ modal, setModal }) => {
 	const githubContext = useContext(GithubContext);
 
 	const { loading, photo } = githubContext;
@@ -36,9 +36,9 @@ const User = ({ modal, setModal }) => {
 	);
 };
 
-User.propTypes = {
+Photo.propTypes = {
 	loading: PropTypes.bool.isRequired,
 	photo: PropTypes.object.isRequired,
 };
 
-export default User;
+export default Photo;

@@ -18,7 +18,6 @@ const GithubState = (props) => {
 
 	const [state, dispatch] = useReducer(GithubReducer, initialState);
 
-	// Search Photos
 	const searchPhotos = async (text) => {
 		setLoading();
 
@@ -31,7 +30,6 @@ const GithubState = (props) => {
 		} else {
 			const { total, results } = newRes.response;
 
-			// handle success here
 			console.log(`received ${results.length} photos out of ${total}`);
 			console.log('first photo: ', results[0]);
 
@@ -67,7 +65,6 @@ const GithubState = (props) => {
 		});
 	}
 
-	// Set Loading
 	const setLoading = () => dispatch({ type: SET_LOADING });
 
 	return (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import GithubContext from '../../context/github/githubContext';
 
-const UserItem = ({ tilePhoto: { urls, id }, modal, setModal }) => {
+const PhotoItem = ({ tilePhoto: { urls, id }, modal, setModal }) => {
 	const githubContext = useContext(GithubContext);
 	const { getPhoto } = githubContext;
 
@@ -21,8 +21,8 @@ const UserItem = ({ tilePhoto: { urls, id }, modal, setModal }) => {
 	);
 };
 
-UserItem.propTypes = {
+PhotoItem.propTypes = {
 	getPhoto: PropTypes.func.isRequired
 };
 
-export default UserItem;
+export default PhotoItem;

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import UserItem from './UserItem';
+import PhotoItem from './PhotoItem';
 import Spinner from '../layout/Spinnner';
 import GithubContext from '../../context/github/githubContext';
 
-const Users = ({ modal, setModal }) => {
+const Photos = ({ modal, setModal }) => {
 	const githubContext = useContext(GithubContext);
 
 	const { loading, photos } = githubContext;
@@ -13,7 +13,7 @@ const Users = ({ modal, setModal }) => {
 		return <Spinner />;
 	} else {
 		console.log(photos);
-		return <div style={userStyle}>{photos.map((photo) => <UserItem key={photo.id} tilePhoto={photo} modal={modal} setModal={setModal} />)}</div>;
+		return <div style={userStyle}>{photos.map((photo) => <PhotoItem key={photo.id} tilePhoto={photo} modal={modal} setModal={setModal} />)}</div>;
 	}
 };
 
@@ -23,9 +23,9 @@ const userStyle = {
 	gridGap: '1rem'
 };
 
-Users.propTypes = {
+Photos.propTypes = {
 	loading: PropTypes.bool.isRequired,
 	photos: PropTypes.array.isRequired,
 };
 
-export default Users;
+export default Photos;

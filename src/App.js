@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
-import Users from './components/users/Users';
-import User from './components/users/User';
+import Photos from './components/users/Photos';
+import Photo from './components/users/Photo';
 import Search from './components/users/Search';
 import About from './components/pages/About';
 
@@ -33,9 +33,9 @@ const App = () => {
 								render={(props) => (
 									<Fragment>
 										<Search />
-										<Users modal={modal} setModal={setModal} />
+										<Photos modal={modal} setModal={setModal} />
 										{modal &&
-											<User {...props} modal={modal} setModal={setModal} />
+											<Photo {...props} modal={modal} setModal={setModal} />
 										}
 									</Fragment>
 								)}

@@ -59,12 +59,8 @@ const Search = ({ history, setAlert }) => {
 
 	useEffect(() => {
 		if (finalPhrase === text && finalPhrase) { onSubmit() };
-		// return () => {
-		// 	setFinalPhrase('');
-		// }
 	}, [finalPhrase, text])
 
-	// const onChange = (e) => setText(e.target.value);
 	const suggestOnChange = (e, { newValue }) => {
 		setText(typeof newValue !== 'undefined' ? newValue : '')
 	}
