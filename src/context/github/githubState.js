@@ -39,10 +39,6 @@ const GithubState = (props) => {
 			// handle success here
 			console.log(`received ${results.length} photos out of ${total}`);
 			console.log('first photo: ', results[0]);
-			// console.log('1st user name: ', results[0].user.name);
-			// console.log('1st where: ', results[0].alt_description);
-
-			// getPhotoLocation(results[0].id);
 
 			dispatch({
 				type: SEARCH_PHOTOS,
@@ -71,7 +67,7 @@ const GithubState = (props) => {
 		});
 	}
 
-	const getPhotoLocation = async (id) => {
+	const getPhotoLocation = async (id) => {         // ----------  DO USUNIECIA???
 		// setLoading();
 
 		const res = await api.photos.get(
@@ -95,8 +91,9 @@ const GithubState = (props) => {
 
 	const getTopicsList = async (topic) => {
 		const res = await api.topics.list({
-			page: 1,
-			perPage: 10
+			page: 92,
+			perPage: 9,
+			orderBy: 'featured'
 		});
 		console.log("🚀 ~ file: githubState.js ~ line 107 ~ getTopicsList ~ res", res)
 		// res.response.results.map(e => {

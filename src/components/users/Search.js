@@ -8,8 +8,6 @@ const Search = ({ history, setAlert }) => {
 
 	const githubContext = useContext(GithubContext);
 
-	githubContext.getTopicsList('party');
-
 	const [text, setText] = useState('');
 
 	const onSubmit = (e) => {
@@ -21,6 +19,8 @@ const Search = ({ history, setAlert }) => {
 			setText('');
 
 			history.push(`/photos/${text}`);
+
+			githubContext.getTopicsList();
 		}
 	};
 

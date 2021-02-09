@@ -42,9 +42,12 @@ const User = ({ match, modal, setModal }) => {
 						<h5 className="d-inline ml-2">{photo.user.name}</h5>
 					</div>
 					<img src={photo.urls.regular} alt='' />
-					<div className="pt-2">
-						<span className="d-inline ml-2">{photo.location.name}</span>
-					</div>
+					{photo.location.name &&
+						<div className="pt-2 ml-2">
+							<i class="fas fa-map-marker-alt"></i>
+							<span className="d-inline ml-3">{photo.location.name}</span>
+						</div>
+					}
 				</MDBModalBody>
 				{/* <MDBModalFooter center>
 					<button className='btn btn-light' onClick={() => setModal(!modal)}>Close</button>
