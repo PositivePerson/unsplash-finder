@@ -2,46 +2,47 @@ import React, { Fragment, useEffect, useContext } from 'react';
 import Spinner from '../layout/Spinnner';
 import Repos from '../repos/Repos';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import GithubContext from '../../context/github/githubContext';
 
-const User = ({ getUserRepos, repos, match }) => {
+import {
+	MDBInput,
+	MDBBtn,
+	MDBModal,
+	MDBModalBody,
+	MDBContainer,
+	MDBModalHeader,
+	MDBModalFooter
+} from "mdbreact";
+
+const User = ({ match, modal, setModal }) => {
 	const githubContext = useContext(GithubContext);
 
-	const { getUser, loading, user } = githubContext;
-
 	useEffect(() => {
-		getUser(match.params.login);
-		getUserRepos(match.params.login);
-		// eslint-disable-next-line
+		// getPhoto("LpZzUuQa80Q");
 	}, []);
 
-	const {
-		name,
-		company,
-		avatar_url,
-		location,
-		bio,
-		blog,
-		login,
-		html_url,
-		followers,
-		following,
-		public_repos,
-		public_gists,
-		hireable
-	} = user;
+	const { loading, photo } = githubContext;
+	// if (photo.urls.regular) console.log("regular work")
+
+	// const {
+	// 	location
+	// } = photo;
 
 	if (loading) return <Spinner />;
 
 	return (
 		<Fragment>
-			<Link to='/' className='btn btn-light'>
-				Back to Search
-			</Link>
-			Hireable: {' '}
-			{hireable ? <i className='fas fa-check text-success' /> : <i className='fas fa-times-circle text-danger' />}
-			<div className='card grid-2'>
+			<MDBModal isOpen={modal} toggle={() => setModal(!modal)} centered>
+				<MDBModalHeader>MDBModal title</MDBModalHeader>
+				<MDBModalBody>
+					<img src={photo.urls.regular} alt='' />
+				</MDBModalBody>
+				<MDBModalFooter center>
+					<button className='btn btn-light' onClick={() => setModal(!modal)}>Close</button>
+				</MDBModalFooter>
+			</MDBModal>
+			{/* <div className='card grid-2'>
 				<div className='all-center'>
 					<img src={avatar_url} className='round-img' alt='' style={{ width: '150px' }} />
 					<h1>{name}</h1>
@@ -81,21 +82,9 @@ const User = ({ getUserRepos, repos, match }) => {
 						</li>
 					</ul>
 				</div>
-			</div>
-			<div className='card text-center'>
-				<div className='badge badge-primary'>Followers: {followers}</div>
-				<div className='badge badge-success'>Following: {following}</div>
-				<div className='badge badge-light'>Public Repos: {public_repos}</div>
-				<div className='badge badge-dark'>Public Gists: {public_gists}</div>
-			</div>
-			<Repos repos={repos} />
+			</div> */}
 		</Fragment>
 	);
-};
-
-User.propTypes = {
-	repos: PropTypes.array.isRequired,
-	getUserRepos: PropTypes.func.isRequired
 };
 
 export default User;

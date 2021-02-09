@@ -52,16 +52,18 @@ const GithubState = (props) => {
 	}
 
 	const getPhoto = async (id) => {
+		setLoading();
+
 		const res = await api.photos.get(
 			{ photoId: id }
 		);
+		console.log("🚀 ~ file: githubState.js ~ line 58 ~ getPhoto ~ res", res)
 
 		// if (res.response.location.name) {
 		// 	payload = res.response.location.name;
 		// } else {
 		// 	console.log("No info about location.");
 		// }
-		// console.log("🚀line 74 ", payload)
 
 		dispatch({
 			type: GET_PHOTO,
@@ -70,6 +72,8 @@ const GithubState = (props) => {
 	}
 
 	const getPhotoLocation = async (id) => {
+		// setLoading();
+
 		const res = await api.photos.get(
 			{ photoId: id }
 		);
@@ -82,6 +86,7 @@ const GithubState = (props) => {
 		}
 		console.log("🚀line 74 ", payload)
 
+		return res.response.location.name
 		// dispatch({
 		// 	type: GET_PHOTO_LOCATION,
 		// 	payload: res.response.location
@@ -105,19 +110,19 @@ const GithubState = (props) => {
 	}
 
 	// Get User
-	const getUser = async (username) => {
-		setLoading();
+	// const getUser = async (username) => {
+	// 	setLoading();
 
-		const res = await axios.get(
-			`https://api.github.com/users/${username}?client_id=${process.env
-				.REACT_APP_UNSPLASH_CLIENT_ID}&client_secret=${process.env.REACT_APP_UNSPLASH_CLIENT_SECRET}`
-		);
+	// 	const res = await axios.get(
+	// 		`https://api.github.com/users/${username}?client_id=${process.env
+	// 			.REACT_APP_UNSPLASH_CLIENT_ID}&client_secret=${process.env.REACT_APP_UNSPLASH_CLIENT_SECRET}`
+	// 	);
 
-		dispatch({
-			type: GET_USER,
-			payload: res.data
-		});
-	};
+	// 	dispatch({
+	// 		type: GET_USER,
+	// 		payload: res.data
+	// 	});
+	// };
 
 	// Set Loading
 	const setLoading = () => dispatch({ type: SET_LOADING });
@@ -126,10 +131,10 @@ const GithubState = (props) => {
 		<GithubContext.Provider
 			value={{
 				photos: state.photos,
+				photo: state.photo,
 				user: state.user,
 				loading: state.loading,
 				searchPhotos,
-				getUser,
 				getPhoto,
 				getPhotoLocation,
 				getTopicsList

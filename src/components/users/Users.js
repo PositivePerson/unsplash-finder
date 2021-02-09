@@ -3,7 +3,7 @@ import UserItem from './UserItem';
 import Spinner from '../layout/Spinnner';
 import GithubContext from '../../context/github/githubContext';
 
-const Users = () => {
+const Users = ({ modal, setModal }) => {
 	const githubContext = useContext(GithubContext);
 
 	const { loading, photos } = githubContext;
@@ -12,8 +12,7 @@ const Users = () => {
 		return <Spinner />;
 	} else {
 		console.log(photos);
-		console.log(githubContext);
-		return <div style={userStyle}>{photos.map((photo) => <UserItem key={photo.id} photo={photo} />)}</div>;
+		return <div style={userStyle}>{photos.map((photo) => <UserItem key={photo.id} tilePhoto={photo} modal={modal} setModal={setModal} />)}</div>;
 	}
 };
 

@@ -20,6 +20,7 @@ export default (state, action) => {
 				loading: false
 			};
 		case GET_PHOTO:
+			console.log("🚀 ~ file: githubReducer.js ~ line 29 ~ action.payload", action.payload)
 			return {
 				...state,
 				photo: action.payload,

@@ -29,7 +29,7 @@ const Search = ({ history, setAlert }) => {
 	return (
 		<div style={window.location.pathname === '/' ? firstPageStyle : {}}>
 			<form className='form' onSubmit={onSubmit}>
-				<input type='text' name='text' placeholder='Search Users...' value={text} onChange={onChange} />
+				<input type='text' name='text' placeholder='Search Photo...' value={text} onChange={onChange} />
 				{/* <input type='submit' value='Search' className='btn btn-dark btn-block' /> */}
 
 				{/* {text ?
