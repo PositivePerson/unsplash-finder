@@ -8,9 +8,11 @@ import GithubContext from '../../context/github/githubContext';
 import {
 	MDBInput,
 	MDBBtn,
+	MDBContainer,
+	MDBRow,
+	MDBCol,
 	MDBModal,
 	MDBModalBody,
-	MDBContainer,
 	MDBModalHeader,
 	MDBModalFooter
 } from "mdbreact";
@@ -34,13 +36,19 @@ const User = ({ match, modal, setModal }) => {
 	return (
 		<Fragment>
 			<MDBModal isOpen={modal} toggle={() => setModal(!modal)} centered>
-				<MDBModalHeader>MDBModal title</MDBModalHeader>
 				<MDBModalBody>
+					<div className="pb-2">
+						<img src={photo.user.profile_image.small} alt='' className='round-img' style={{ width: '45px' }} />
+						<h5 className="d-inline ml-2">{photo.user.name}</h5>
+					</div>
 					<img src={photo.urls.regular} alt='' />
+					<div className="pt-2">
+						<span className="d-inline ml-2">{photo.location.name}</span>
+					</div>
 				</MDBModalBody>
-				<MDBModalFooter center>
+				{/* <MDBModalFooter center>
 					<button className='btn btn-light' onClick={() => setModal(!modal)}>Close</button>
-				</MDBModalFooter>
+				</MDBModalFooter> */}
 			</MDBModal>
 			{/* <div className='card grid-2'>
 				<div className='all-center'>

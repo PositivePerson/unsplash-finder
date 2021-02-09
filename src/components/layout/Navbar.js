@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 const Navbar = ({ title }) => {
 	return (
 		<nav className='navbar bg-primary'>
-			<h1>
-				<i>{title}</i>
-			</h1>
-			<ul>
+			<h2 className="mb-0">
+				<Link to='/'><i>{title}</i></Link>
+			</h2>
+			<ul className="mb-0">
 				<li>
 					<Link to='/'>Home</Link>
 				</li>
