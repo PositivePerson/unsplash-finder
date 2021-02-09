@@ -10,7 +10,6 @@ const api = createApi({
 
 const GithubState = (props) => {
 	const initialState = {
-		user: {},
 		loading: false,
 		photos: [],
 		photo: {},
@@ -56,7 +55,7 @@ const GithubState = (props) => {
 		});
 	}
 
-	const getTopicsList = async (topic) => {
+	const getTopicsList = async () => {
 		const res = await api.topics.list({
 			page: 1,
 			perPage: 10
@@ -77,7 +76,6 @@ const GithubState = (props) => {
 				photos: state.photos,
 				photo: state.photo,
 				topicList: state.topicList,
-				user: state.user,
 				loading: state.loading,
 				searchPhotos,
 				getPhoto,
