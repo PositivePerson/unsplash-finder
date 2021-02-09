@@ -25,8 +25,6 @@ const getSuggestions = value => {
 	const inputValue = value.trim().toLowerCase();
 	const inputLength = inputValue.length;
 
-	console.log(suggestionsArray);
-
 	return inputLength === 0 ? [] : suggestionsArray.filter(lang =>
 		lang.slug.toLowerCase().slice(0, inputLength) === inputValue
 	);
@@ -45,18 +43,19 @@ const renderSuggestion = suggestion => (
 
 const Search = ({ history, setAlert }) => {
 	const githubContext = useContext(GithubContext);
+	const { getTopicsList, topicList, searchPhotos } = githubContext;
 
 	const [text, setText] = useState('');
 	const [finalPhrase, setFinalPhrase] = useState('');
 	const [suggestions, setSuggestion] = useState([]);
 
 	useEffect(() => {
-		githubContext.getTopicsList(text);
+		getTopicsList(text);
 	}, [])
 
 	useEffect(() => {
-		if (githubContext.topicList) suggestionsArray = githubContext.topicList.results;
-	}, [githubContext.topicList])
+		if (topicList) suggestionsArray = topicList.results;
+	}, [topicList])
 
 	useEffect(() => {
 		if (finalPhrase === text && finalPhrase) { onSubmit() };
@@ -85,7 +84,6 @@ const Search = ({ history, setAlert }) => {
 	// based on the clicked suggestion. Teach Autosuggest how to calculate the
 	// input value for every given suggestion.
 	const getSuggestionValue = suggestion => {
-		console.log("🚀 ~ file: Search.js ~ line 82 ~ Search ~ suggestion.slug", suggestion.slug);
 		setText(suggestion.slug);
 		setFinalPhrase(suggestion.slug);
 
@@ -104,11 +102,10 @@ const Search = ({ history, setAlert }) => {
 		if (text === '') {
 			setAlert('Please enter something', 'light');
 		} else {
-			githubContext.searchPhotos(text);
+			searchPhotos(text);
 			setText('');
 
 			history.push(`/photos/${text}`);
-			console.log("🚀 ~ file: Search.js ~ line 93 ~ onSubmit ~ text", text)
 		}
 	};
 
@@ -139,7 +136,9 @@ const firstPageStyle = {
 };
 
 Search.propTypes = {
-	setAlert: PropTypes.func.isRequired
+	getTopicsList: PropTypes.func.isRequired,
+	searchPhotos: PropTypes.func.isRequired,
+	topicList: PropTypes.array.isRequired
 };
 
 export default withRouter(Search);
