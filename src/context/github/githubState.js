@@ -21,7 +21,7 @@ const GithubState = (props) => {
 
 	// Search Photos
 	const searchPhotos = async (text) => {
-		console.log(process.env.REACT_APP_UNSPLASH_CLIENT_ID);
+		// console.log(process.env.REACT_APP_UNSPLASH_CLIENT_ID);
 		setLoading();
 
 		const newRes = await api.search.getPhotos({
@@ -90,12 +90,14 @@ const GithubState = (props) => {
 	}
 
 	const getTopicsList = async (topic) => {
+		// const string = new RegExp('^' + topic, 'i');
+
 		const res = await api.topics.list({
-			page: 92,
-			perPage: 9,
-			orderBy: 'featured'
+			page: 1,
+			perPage: 10,
+			// topicIdsOrSlugs: [topic]
 		});
-		console.log("🚀 ~ file: githubState.js ~ line 107 ~ getTopicsList ~ res", res)
+		console.log("🚀 ~ file: githubState.js ~ line 107 ~ getTopicsList ~ res", res.response)
 		// res.response.results.map(e => {
 		// 	console.log(e)
 		// })
