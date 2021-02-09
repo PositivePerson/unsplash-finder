@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import GithubContext from './githubContext';
 import GithubReducer from './githubReducer';
-import { SET_LOADING, GET_USER, SEARCH_PHOTOS, GET_PHOTO } from '../types';
+import { SET_LOADING, GET_USER, SEARCH_PHOTOS, GET_PHOTO, GET_TOPIC_LIST } from '../types';
 import { createApi } from "unsplash-js";
 
 const api = createApi({
@@ -14,7 +14,8 @@ const GithubState = (props) => {
 		user: {},
 		loading: false,
 		photos: [],
-		photo: {}
+		photo: {},
+		topicList: []
 	};
 
 	const [state, dispatch] = useReducer(GithubReducer, initialState);
@@ -97,15 +98,12 @@ const GithubState = (props) => {
 			perPage: 10,
 			// topicIdsOrSlugs: [topic]
 		});
-		console.log("🚀 ~ file: githubState.js ~ line 107 ~ getTopicsList ~ res", res.response)
-		// res.response.results.map(e => {
-		// 	console.log(e)
-		// })
+		// console.log("🚀 ~ file: githubState.js ~ line 107 ~ getTopicsList ~ res", res.response)
 
-		// dispatch({
-		// 	type: GET_PHOTO_LOCATION,
-		// 	payload: res.response.location
-		// });
+		dispatch({
+			type: GET_TOPIC_LIST,
+			payload: res.response
+		});
 	}
 
 	// Get User
@@ -131,6 +129,7 @@ const GithubState = (props) => {
 			value={{
 				photos: state.photos,
 				photo: state.photo,
+				topicList: state.topicList,
 				user: state.user,
 				loading: state.loading,
 				searchPhotos,

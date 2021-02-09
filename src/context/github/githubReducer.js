@@ -1,4 +1,4 @@
-import { SET_LOADING, GET_USER, SEARCH_PHOTOS, GET_PHOTO } from '../types';
+import { SET_LOADING, GET_USER, SEARCH_PHOTOS, GET_PHOTO, GET_TOPIC_LIST } from '../types';
 
 export default (state, action) => {
 	switch (action.type) {
@@ -17,6 +17,12 @@ export default (state, action) => {
 			return {
 				...state,
 				photos: action.payload,
+				loading: false
+			};
+		case GET_TOPIC_LIST:
+			return {
+				...state,
+				topicList: action.payload,
 				loading: false
 			};
 		case GET_PHOTO:

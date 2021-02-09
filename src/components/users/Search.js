@@ -5,22 +5,18 @@ import GithubContext from '../../context/github/githubContext';
 
 import Autosuggest from 'react-autosuggest';
 
-const languages = [
+let suggestionsArray = [
 	{
-		name: 'C',
-		year: 1972
+		slug: 'Apples'
 	},
 	{
-		name: 'Elm',
-		year: 2012
+		slug: 'Kiwi'
 	},
 	{
-		name: 'Elma',
-		year: 2012
+		slug: 'Oranges'
 	},
 	{
-		name: 'Ella',
-		year: 2012
+		slug: 'Watermelon'
 	}
 ];
 
@@ -29,8 +25,10 @@ const getSuggestions = value => {
 	const inputValue = value.trim().toLowerCase();
 	const inputLength = inputValue.length;
 
-	return inputLength === 0 ? [] : languages.filter(lang =>
-		lang.name.toLowerCase().slice(0, inputLength) === inputValue
+	console.log(suggestionsArray);
+
+	return inputLength === 0 ? [] : suggestionsArray.filter(lang =>
+		lang.slug.toLowerCase().slice(0, inputLength) === inputValue
 	);
 };
 
@@ -41,7 +39,7 @@ const shouldRenderSuggestions = (value, reason) => {
 // Use your imagination to render suggestions.
 const renderSuggestion = suggestion => (
 	<div>
-		{suggestion.name}
+		{suggestion.slug}
 	</div>
 );
 
@@ -51,6 +49,14 @@ const Search = ({ history, setAlert }) => {
 	const [text, setText] = useState('');
 	const [finalPhrase, setFinalPhrase] = useState('');
 	const [suggestions, setSuggestion] = useState([]);
+
+	useEffect(() => {
+		githubContext.getTopicsList(text);
+	}, [])
+
+	useEffect(() => {
+		if (githubContext.topicList) suggestionsArray = githubContext.topicList.results;
+	}, [githubContext.topicList])
 
 	useEffect(() => {
 		if (finalPhrase === text && finalPhrase) { onSubmit() };
@@ -79,11 +85,11 @@ const Search = ({ history, setAlert }) => {
 	// based on the clicked suggestion. Teach Autosuggest how to calculate the
 	// input value for every given suggestion.
 	const getSuggestionValue = suggestion => {
-		console.log("🚀 ~ file: Search.js ~ line 82 ~ Search ~ suggestion.name", suggestion.name);
-		setText(suggestion.name);
-		setFinalPhrase(suggestion.name);
+		console.log("🚀 ~ file: Search.js ~ line 82 ~ Search ~ suggestion.slug", suggestion.slug);
+		setText(suggestion.slug);
+		setFinalPhrase(suggestion.slug);
 
-		return suggestion.name;
+		return suggestion.slug;
 	};
 
 	// Autosuggest will pass through all these props to the input.
@@ -103,8 +109,6 @@ const Search = ({ history, setAlert }) => {
 
 			history.push(`/photos/${text}`);
 			console.log("🚀 ~ file: Search.js ~ line 93 ~ onSubmit ~ text", text)
-
-			githubContext.getTopicsList(text);
 		}
 	};
 
